@@ -39,4 +39,4 @@ A preencher após a aprovação de todos os Quality Gates.
 
 ## 4. Aceitação de Risco
 
-Não prevista. Qualquer exceção necessária será documentada com o respectivo identificador, justificativa e prazo de correção.
+O arquivo `.trivyignore` foi incluído para atender ao processo formal de gestão de exceções, mas não contém nenhuma CVE suprimida. Todos os achados detectados nos gates adotados foram corrigidos; portanto, não há aceitação de risco ativa.
