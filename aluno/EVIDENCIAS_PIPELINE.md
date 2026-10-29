@@ -25,7 +25,7 @@ O pipeline inicial terminou com os dois jobs reprovados:
 
 | Achado | Arquivo modificado | Resumo da alteração realizada |
 |---|---|---|
-| **F1: Segredos** | `.gitignore`, `.env`, `.env.example` | A preencher |
+| **F1: Segredos** | `.gitignore`, `.env`, `.env.example` | Remoção do `.env` versionado, inclusão da regra de exclusão e criação de um modelo sem credenciais reais. |
 | **F2: SCA** | `requirements.txt` | A preencher |
 | **F3: SAST** | `app/db.py` | A preencher |
 | **F4: Hardening** | `Dockerfile` | A preencher |
