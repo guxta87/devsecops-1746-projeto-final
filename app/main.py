@@ -7,7 +7,7 @@ from . import auth, db
 bp = Blueprint("main", __name__)
 
 VALID_SERVICES = {"viagem", "arte", "evento"}
-VALID_ROLES = {"staff", "admin"}
+VALID_ROLES = {"client", "staff", "admin"}
 
 
 @bp.get("/")
@@ -90,7 +90,7 @@ def admin_users():
 
 
 @bp.post("/admin/users/<int:user_id>/role")
-@auth.login_required
+@auth.require_role("admin")
 def admin_set_role(user_id):
     role = (request.get_json(silent=True) or {}).get("role")
     if role not in VALID_ROLES:
