@@ -36,6 +36,15 @@ def test_health(client):
     assert resp.get_json() == {"status": "ok"}
 
 
+def test_security_headers(client):
+    resp = client.get("/health")
+    assert resp.headers["Content-Security-Policy"] == "default-src 'self'"
+    assert resp.headers["Strict-Transport-Security"] == "max-age=31536000; includeSubDomains"
+    assert resp.headers["X-Content-Type-Options"] == "nosniff"
+    assert resp.headers["X-Frame-Options"] == "DENY"
+    assert resp.headers["Referrer-Policy"] == "no-referrer"
+
+
 def test_login_invalid(client):
     resp = client.post("/login", json={"email": "leo@clubeaurora.com", "password": "errada"})
     assert resp.status_code == 401
@@ -72,5 +81,14 @@ def test_admin_routes(client):
     admin = login(client, "armando@clubeaurora.com")
     assert client.get("/admin/users", headers=staff).status_code == 403
     assert client.get("/admin/users", headers=admin).status_code == 200
+    assert client.post("/admin/users/3/role", json={"role": "admin"}, headers=staff).status_code == 403
     resp = client.post("/admin/users/3/role", json={"role": "admin"}, headers=admin)
     assert resp.status_code == 200
+
+
+def test_create_user_uses_least_privileged_role(client):
+    with client.application.app_context():
+        from app import db
+
+        user_id = db.create_user("novo@clubeaurora.com", PASSWORD, "Novo Cliente")
+        assert db.get_user_by_id(user_id)["role"] == "client"

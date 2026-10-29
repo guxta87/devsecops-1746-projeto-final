@@ -10,7 +10,7 @@ def test_selfcheck_execution():
     script = repo_root / "scripts" / "selfcheck.py"
     assert script.exists(), "O script scripts/selfcheck.py deve existir"
 
-    # No baseline vulnerável aurora, o selfcheck deve detectar pendências (exit code 1)
+    # Após as correções, as duas trilhas práticas devem passar na autoavaliação.
     res_n2 = subprocess.run(
         [sys.executable, str(script), "--nivel", "2"],
         capture_output=True,
@@ -19,8 +19,9 @@ def test_selfcheck_execution():
         errors="replace",
         check=False,
     )
-    assert res_n2.returncode == 1, "selfcheck --nivel 2 deve indicar pendências no baseline"
+    assert res_n2.returncode == 0, res_n2.stdout
     assert "F1" in res_n2.stdout
+    assert "SUCESSO" in res_n2.stdout
 
     res_n3 = subprocess.run(
         [sys.executable, str(script), "--nivel", "3"],
@@ -30,8 +31,10 @@ def test_selfcheck_execution():
         errors="replace",
         check=False,
     )
-    assert res_n3.returncode == 1, "selfcheck --nivel 3 deve indicar pendências no baseline"
+    assert res_n3.returncode == 0, res_n3.stdout
     assert "F3" in res_n3.stdout
+    assert "F7" in res_n3.stdout
+    assert "SUCESSO" in res_n3.stdout
 
 
 if __name__ == "__main__":

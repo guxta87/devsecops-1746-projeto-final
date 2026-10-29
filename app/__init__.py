@@ -30,6 +30,16 @@ def create_app(test_config=None):
 
     app.register_blueprint(bp)
 
+    @app.after_request
+    def add_security_headers(response):
+        """Aplica os cabeçalhos defensivos a todas as respostas HTTP."""
+        response.headers["Content-Security-Policy"] = "default-src 'self'"
+        response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+        response.headers["X-Content-Type-Options"] = "nosniff"
+        response.headers["X-Frame-Options"] = "DENY"
+        response.headers["Referrer-Policy"] = "no-referrer"
+        return response
+
     @app.cli.command("init-db")
     def init_db_command():
         """Recria o banco com dados de exemplo."""

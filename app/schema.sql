@@ -10,7 +10,7 @@ CREATE TABLE users (
     id            INTEGER PRIMARY KEY AUTOINCREMENT,
     email         TEXT    NOT NULL UNIQUE,
     password_hash TEXT    NOT NULL,
-    role          TEXT    NOT NULL CHECK (role IN ('staff', 'admin')),
+    role          TEXT    NOT NULL CHECK (role IN ('client', 'staff', 'admin')),
     full_name     TEXT    NOT NULL
 );
 
