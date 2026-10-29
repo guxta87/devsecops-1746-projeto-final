@@ -4,3 +4,4 @@
 10021	FAIL	(X-Content-Type-Options Header Missing)
 10035	FAIL	(Strict-Transport-Security Header Not Set)
 10038	FAIL	(Content-Security-Policy Header Not Set)
+90005	IGNORE	(Sec-Fetch-Dest is a browser request header and is absent from ZAP scanner requests)

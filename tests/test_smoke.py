@@ -38,7 +38,14 @@ def test_health(client):
 
 def test_security_headers(client):
     resp = client.get("/health")
-    assert resp.headers["Content-Security-Policy"] == "default-src 'self'"
+    assert resp.headers["Cache-Control"] == "no-store"
+    assert resp.headers["Content-Security-Policy"] == (
+        "default-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
+    )
+    assert resp.headers["Cross-Origin-Embedder-Policy"] == "require-corp"
+    assert resp.headers["Cross-Origin-Opener-Policy"] == "same-origin"
+    assert resp.headers["Cross-Origin-Resource-Policy"] == "same-origin"
+    assert resp.headers["Permissions-Policy"] == "camera=(), microphone=(), geolocation=()"
     assert resp.headers["Strict-Transport-Security"] == "max-age=31536000; includeSubDomains"
     assert resp.headers["X-Content-Type-Options"] == "nosniff"
     assert resp.headers["X-Frame-Options"] == "DENY"
