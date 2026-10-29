@@ -27,7 +27,7 @@ O pipeline inicial terminou com os dois jobs reprovados:
 |---|---|---|
 | **F1: Segredos** | `.gitignore`, `.env`, `.env.example` | Remoção do `.env` versionado, inclusão da regra de exclusão e criação de um modelo sem credenciais reais. |
 | **F2: SCA** | `requirements.txt` | Atualização de Flask, Werkzeug, Gunicorn e urllib3 para versões estáveis sem as CVEs identificadas pelo Trivy. |
-| **F3: SAST** | `app/db.py` | A preencher |
+| **F3: SAST** | `app/db.py`, `tests/test_smoke.py` | Substituição da interpolação de texto por consulta parametrizada com `?` e inclusão de teste de regressão contra SQL Injection. |
 | **F4: Hardening** | `Dockerfile` | A preencher |
 | **F5: DAST** | `app/main.py` ou `app/__init__.py` | A preencher |
 | **F6: Menor Privilégio** | `app/db.py`, `app/main.py` | A preencher |

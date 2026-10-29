@@ -52,6 +52,13 @@ def test_list_and_search_clients(client):
     assert [c["full_name"] for c in found] == ["Helena Vasconcelos"]
 
 
+def test_search_clients_rejects_sql_injection(client):
+    headers = login(client, "carla@clubeaurora.com")
+    found = client.get("/clients/search?name=%27%20OR%201%3D1%20--", headers=headers)
+    assert found.status_code == 200
+    assert found.get_json() == []
+
+
 def test_bookings_flow(client):
     headers = login(client, "carla@clubeaurora.com")
     payload = {"service": "evento", "destination": "Gala", "starts_at": "2027-05-01T20:00:00", "amount": 1000}
