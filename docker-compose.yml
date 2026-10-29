@@ -1,16 +1,26 @@
-version: '3.8'
-
 services:
   aurora-api:
-    build: .
+    build:
+      context: .
+    image: clube-aurora-api:local
     container_name: aurora-api
-    privileged: true  # ❌ Inseguro: concede capacidades totais do host ao container
     ports:
       - "8080:8080"
-      - "5000:5000"   # ❌ Inseguro: porta desnecessária exposta
     environment:
-      - SECRET_KEY=aurora-super-secret-key-production-hardcoded-2026 # ❌ Segredo inline
-      - FLASK_ENV=development
+      SECRET_KEY: "${SECRET_KEY:?Defina SECRET_KEY no arquivo .env local}"
+      SEED_PASSWORD: "${SEED_PASSWORD:?Defina SEED_PASSWORD no arquivo .env local}"
+      DATABASE: /app/instance/aurora.db
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock # ❌ Inseguro: socket Docker compartilhado
-    restart: always
+      - aurora-data:/app/instance
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m,mode=1777
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    init: true
+    restart: unless-stopped
+
+volumes:
+  aurora-data:

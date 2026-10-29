@@ -31,7 +31,7 @@ O pipeline inicial terminou com os dois jobs reprovados:
 | **F4: Hardening** | `Dockerfile`, `.dockerignore` | Build multi-stage em Python 3.11 fixado, dependências isoladas, usuário `nonroot`, permissões mínimas, healthcheck e redução do contexto da imagem. |
 | **F5: DAST** | `app/__init__.py`, `tests/test_smoke.py` | Inclusão global de CSP, HSTS, `X-Content-Type-Options`, `X-Frame-Options` e `Referrer-Policy`, acompanhada por teste automatizado dos valores esperados. |
 | **F6: Menor Privilégio** | `app/db.py`, `app/main.py`, `tests/test_smoke.py` | Papel padrão alterado de `admin` para `client`, rota de mudança de papel restrita a administradores e testes para impedir elevação por usuários `staff`. |
-| **F7: IaC** | `docker-compose.yml` | A preencher |
+| **F7: IaC** | `docker-compose.yml` | Remoção do modo privilegiado, socket Docker, porta de desenvolvimento e segredos inline; adoção de volume nomeado, filesystem somente leitura, capacidades removidas e `no-new-privileges`. |
 
 ## 3. Evidência do Pipeline Final (Após as Correções)
 
